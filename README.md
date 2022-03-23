@@ -30,5 +30,11 @@ The origina script effects with sync to others and an 8 seconds cooldown on char
 
 ![alt text](https://i.imgur.com/bipHCNJ.jpg)
 
-Thats all folks (i guess).
+Nitro is charging by drifting (points are held for 4 seconds in case of drifting again as a multi-bonus)
 
+![alt text](https://i.imgur.com/bcTD6LX.jpg)
+
+![alt text](https://i.imgur.com/B0f9sfz.jpg)
+
+
+Thats all folks (i guess).
