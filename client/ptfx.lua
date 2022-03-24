@@ -21,6 +21,12 @@ function CreateVehicleExhaustBackfire(vehicle, scale)
   end
 end
 
+function CreateVehiclePurgeSpray(vehicle, xOffset, yOffset, zOffset, xRot, yRot, zRot, scale)
+  UseParticleFxAssetNextCall('core')
+  return StartParticleFxLoopedOnEntity('ent_sht_steam', vehicle, xOffset, yOffset, zOffset, xRot, yRot, zRot, scale, false, false, false)
+end
+
+
 function CreateVehicleLightTrail(vehicle, bone, scale)
   UseParticleFxAssetNextCall('core')
   local ptfx = StartParticleFxLoopedOnEntityBone('veh_light_red_trail', vehicle, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, bone, scale, false, false, false)
