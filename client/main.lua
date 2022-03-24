@@ -9,6 +9,7 @@ local mult = 0.2
 local previous = 0
 local total = 0
 local curAlpha = 0
+local mod
 function LocalPed()
 	return GetPlayerPed(-1)
 end
@@ -23,6 +24,7 @@ Citizen.CreateThread(function()
 		local speed1 = GetEntitySpeed(playerVeh)
 		local speed = speed1*3.6  
 		local nitrus = round(nitrocount,1)
+		mod = GetVehicleMod(playerVeh,11)
 		if vehicleClass == 1 or vehicleClass == 2 or vehicleClass == 3 or vehicleClass == 4 or vehicleClass == 5 or vehicleClass == 6 or vehicleClass == 7 or vehicleClass == 9 or vehicleClass == 12 or vehicleClass == 0   then
         if IsPedInAnyVehicle(playerPed,false) and GetPedInVehicleSeat(playerVeh,-1)== playerPed and nitrocount < 100 and nitrocount > 0 and nitrocooldown == false then 
 		DrawAdvancedText(0.955,0.72,0.005, 0.0028, 0.5,"Nitro: "..nitrus.." %", 0,255,0,255,6,1)		
@@ -81,6 +83,7 @@ Citizen.CreateThread(function()
 			SetVehicleEnginePowerMultiplier(playerVeh,55.0)	
 			Citizen.Wait(3000)
 				SetVehicleEnginePowerMultiplier(playerVeh,1.0)
+				SetVehicleMod(playerVeh,11,mod)
 				NitroStart=false
 				cooldown= true
 				Citizen.Wait(8000)
