@@ -10,6 +10,7 @@ local previous = 0
 local total = 0
 local curAlpha = 0
 local mod
+local purge = false
 function LocalPed()
 	return GetPlayerPed(-1)
 end
@@ -23,8 +24,16 @@ Citizen.CreateThread(function()
 		local vehicleClass = GetVehicleClass(playerVeh)
 		local speed1 = GetEntitySpeed(playerVeh)
 		local speed = speed1*3.6  
-		local nitrus = round(nitrocount,1)
 		mod = GetVehicleMod(playerVeh,11)
+		mod = GetVehicleMod(playerVeh,11)
+		local nitrus = round(nitrocount,1)	
+		if IsPedInAnyVehicle(playerPed,false) and GetPedInVehicleSeat(playerVeh,-1)== playerPed and nitrocooldown == false then
+		if IsControlJustPressed(0,29) then
+		purge = true 
+		Citizen.Wait(1000)
+		purge = false
+		end
+		end
 		if vehicleClass == 1 or vehicleClass == 2 or vehicleClass == 3 or vehicleClass == 4 or vehicleClass == 5 or vehicleClass == 6 or vehicleClass == 7 or vehicleClass == 9 or vehicleClass == 12 or vehicleClass == 0   then
         if IsPedInAnyVehicle(playerPed,false) and GetPedInVehicleSeat(playerVeh,-1)== playerPed and nitrocount < 100 and nitrocount > 0 and nitrocooldown == false then 
 		DrawAdvancedText(0.955,0.72,0.005, 0.0028, 0.5,"Nitro: "..nitrus.." %", 0,255,0,255,6,1)		
@@ -65,8 +74,10 @@ Citizen.CreateThread(function()
         local ped = GetPlayerPed(-1)
 		local playerVeh = GetVehiclePedIsIn(ped, false)
 		local curspd = GetEntitySpeed(ped)*3.6
+				if purge == true then 
+		DrawAdvancedText(0.965,0.62,0.005, 0.0028, 0.5,"Purging", 140,255,100,255,6,1) 
+		end
 			if  IsControlJustPressed(0, 21) and IsControlPressed(0, 32) and IsPedInAnyVehicle(ped,false) or IsControlJustPressed(2, 226) and IsControlPressed(2, 11) and IsPedInAnyVehicle(ped,false) then
-
 					if NitroStart == false and cooldown == false and nitrocount > 99 then
 							if GetPedInVehicleSeat(playerVeh, -1) == ped then 
 								NitroStart=true
@@ -102,8 +113,17 @@ local function NitroLoop(lastVehicle)
   if lastVehicle ~= 0 and lastVehicle ~= vehicle then
     SetVehicleNitroBoostEnabled(lastVehicle, false)
     SetVehicleLightTrailEnabled(lastVehicle, false)
-    TriggerServerEvent('nitro:__sync', false, true)
+	SetVehicleNitroPurgeEnabled(lastVehicle, false)
+    TriggerServerEvent('nitro:__sync', false, false, true)
   end
+  
+  if not isPurging and purge == true then
+        SetVehicleNitroBoostEnabled(vehicle, false)
+        SetVehicleLightTrailEnabled(vehicle, false)
+        SetVehicleNitroPurgeEnabled(vehicle, true)
+        TriggerServerEvent('nitro:__sync', false, true, false)
+      
+	end
 
   if vehicle == 0 or driver ~= player then
     return 0
@@ -116,21 +136,26 @@ local function NitroLoop(lastVehicle)
   end
 
   local isBoosting = IsVehicleNitroBoostEnabled(vehicle)
+  local isPurging = IsVehicleNitroPurgeEnabled(vehicle)
 
   if NitroStart then
       if not isBoosting then
         SetVehicleNitroBoostEnabled(vehicle, true)
         SetVehicleLightTrailEnabled(vehicle, true)
-        TriggerServerEvent('nitro:__sync', true, false)
-	  end
-  elseif isBoosting then
+		SetVehicleNitroPurgeEnabled(vehicle, false)
+        TriggerServerEvent('nitro:__sync', true, false, false)
+	end
+  elseif isBoosting or isPurging then
     SetVehicleNitroBoostEnabled(vehicle, false)
     SetVehicleLightTrailEnabled(vehicle, false)
-    TriggerServerEvent('nitro:__sync', false, false)
-  end
- 
+	SetVehicleNitroPurgeEnabled(vehicle, false)
+    TriggerServerEvent('nitro:__sync', false, false, false)
+  
+ end
   return vehicle
 end
+
+
 
 Citizen.CreateThread(function ()
   local lastVehicle = 0
@@ -155,6 +180,7 @@ AddEventHandler('nitro:__update', function (playerServerId, boostEnabled, lastVe
 
   SetVehicleNitroBoostEnabled(vehicle, boostEnabled)
   SetVehicleLightTrailEnabled(vehicle, boostEnabled)
+  SetVehicleNitroPurgeEnabled(vehicle, purgeEnabled)
 end)
 
 function DrawAdvancedText(x,y ,w,h,sc, text, r,g,b,a,font,jus)
