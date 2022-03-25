@@ -9,7 +9,7 @@ What i ve done(so far):
 
 Controls:
 Left Shift when you speeding up (W pressed) for nitro usage.
-Left Alt when you are stopped or bellow 50km/h for purge show.
+Left Shift when you are stopped or bellow 50km/h for purge show.(not W pressed)
 
 The script is standalone and the exhaust effect is synced with other players.(as the original script)
 
