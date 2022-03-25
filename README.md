@@ -7,6 +7,10 @@ What i ve done(so far):
 2.Cooldown between nitro uses
 3.Nitro charging with speed(going above 50km/h slowly charges the nitro while slow down bellow 50km/h discharges the nitro)and with drift(drift counter by Blumlaut)
 
+Controls:
+Left Shift when you speeding up (W pressed) for nitro usage.
+Left Alt when you are stopped or bellow 50km/h for purge show.
+
 The script is standalone and the exhaust effect is synced with other players.(as the original script)
 
 Nitro is empty when you enter a car(not on motorbikes,bikes,boats,planes,utility or service vehicles) and not charging when going bellow 50km/h.
