@@ -28,7 +28,7 @@ Citizen.CreateThread(function()
 		mod = GetVehicleMod(playerVeh,11)
 		local nitrus = round(nitrocount,1)	
 		if IsPedInAnyVehicle(playerPed,false) and GetPedInVehicleSeat(playerVeh,-1)== playerPed and nitrocooldown == false then
-		if IsControlJustPressed(0,19) and speed <= 50 then
+		if IsControlPressed(0,21) and speed <= 50 and not IsControlPressed(0,32) then
 		purge = true 
 		else
 		purge = false
