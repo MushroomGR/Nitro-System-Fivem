@@ -9,7 +9,6 @@ local mult = 0.2
 local previous = 0
 local total = 0
 local curAlpha = 0
-local mod
 local purge = false
 function LocalPed()
 	return GetPlayerPed(-1)
@@ -24,7 +23,6 @@ Citizen.CreateThread(function()
 		local vehicleClass = GetVehicleClass(playerVeh)
 		local speed1 = GetEntitySpeed(playerVeh)
 		local speed = speed1*3.6  
-		mod = GetVehicleMod(playerVeh,11)
 		local nitrus = round(nitrocount,1)	
 		if IsPedInAnyVehicle(playerPed,false) and GetPedInVehicleSeat(playerVeh,-1)== playerPed and nitrocooldown == false then
 		if IsControlPressed(0,21) and speed <= 50 and not IsControlPressed(0,32) then
@@ -93,7 +91,6 @@ Citizen.CreateThread(function()
 			SetVehicleEnginePowerMultiplier(playerVeh,55.0)	
 			Citizen.Wait(3000)
 				SetVehicleEnginePowerMultiplier(playerVeh,1.0)
-				SetVehicleMod(playerVeh,11,mod)
 				NitroStart=false
 				cooldown= true
 				Citizen.Wait(8000)
